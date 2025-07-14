@@ -1,0 +1,46 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Jamie Draper',
+  date: '2025-07-12',
+  title: 'Handling Scraper Failures Gracefully (and Why It Matters)',
+  description:
+    'Web scraping often feels like building a house of cards. It works beautifully one day, and the next, a small DOM change somewhere out of your control brings it all crashing down.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+Web scraping often feels like building a house of cards. It works beautifully one day, and the next, a small DOM change somewhere out of your control brings it all crashing down.  In building a Laravel + Python app to track public bid opportunities, scraper resilience has been a topic at the forefront of my mind lately.
+
+
+## Scraping Is Fragile by Nature
+
+Many of the sites I'm targetting weren&apos;t exactly built with modern standards in mind. Worse still, they can change with no notice. This makes scrapers prone to failure even if they&apos;ve been stable for weeks.
+
+This means being realistic about what can go wrong, and to design systems that handle it with care.
+
+## Designing for Failure
+
+Instead of treating scraper failures as edge cases, I need a system that expects them. That ideally means:
+
+- Logging every run with enough detail to debug issues quickly
+- Tracking success/failure rates per source, so I can spot patterns early
+- Alerting when a scraper fails repeatedly, rather than on every error
+- Allowing manual re-runs from the admin interface, for quick recovery
+
+This helps turn a brittle process into one that can be monitored and improved iteratively — like any other production system.
+
+## Separation of Concerns
+
+In my project, Laravel app acts as the orchestrator, queuing up scraping jobs, tracking their outcomes, and displaying results in a usable UI. The actual scraping happens in Python (using Scrapy), which I think is better suited for the job thanks to its mature scraping ecosystem.
+
+By decoupling scraping logic from the web app, failures become isolated. One site breaking doesn&apos;t crash the whole system, and updates can be tested independently before being re-deployed.
+
+## Why It Matters
+
+Ultimately, this isn&apos;t just about technical hygiene. Tools that fail repeatedly errode user trust. If this app is going to be useful, it needs to be reliable. And reliability starts with assuming things will break, then making sure you know when, why, and what to do next.

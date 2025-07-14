@@ -1,0 +1,53 @@
+import { ArticleLayout } from '@/components/ArticleLayout'
+
+export const article = {
+  author: 'Jamie Draper',
+  date: '2025-07-09',
+  title: 'Dev Diary: Building an App to Track Bid Opportunities',
+  description:
+    'For a while now, I’ve been running a side project focused on helping organisations win public contracts.',
+}
+
+export const metadata = {
+  title: article.title,
+  description: article.description,
+}
+
+export default (props) => <ArticleLayout article={article} {...props} />
+
+For a while now, I&apos;ve been running a side project focused on helping organisations win public contracts. The plan has always been to build a tool that automatically scrapes public tender listings from various sources and pulls them into one central dashboard, where users can search, filter, save queries, and get alerts for new matching results.
+
+It&apos;s not a groundbreaking idea, but it solves a real, persistent problem: many public contracts are listed in fragmented, inconsistent places. If you want to stay on top of new opportunities, it takes a lot of manual checking.
+
+## The Stack (So Far)
+
+I&apos;ve decided to split the app into two distinct parts:
+
+- Scraping engine – built in Python with Scrapy, which I&apos;ve used before and trust for anything DOM-fragile and crawl-heavy.
+- Web app – built in Laravel, with a frontend in Vue 3 (more on that in a minute).
+
+Laravel handles multi-user authentication, admin functionality, and storage. The goal is to keep the scraper as a separate service that runs scheduled jobs, stores results in a shared database, and leaves Laravel to handle how that data is viewed and filtered.
+
+## Why Vue and Not React?
+
+In my current and previous job, I've spent a lot of time writing React components. Initially, I assumed I&apos;d do the same here, but I ended up reaching for Vue 3 instead. Why?
+- I haven&apos;t touched Vue much since the the days of Vue 2, and this felt like a good opportunity to update my knowledge there.
+
+- The Laravel ecosystem has decent first-party support for Vue out of the box.
+
+- I wanted a slightly different flavour of frontend work to keep this project fun and exploratory, not just more of what I'm currently doing in other projects.
+
+That said, I&apos;m keeping the frontend relatively light for now. The plan is to progressively enhance key components and build a smoother UI once the backend and scraper are solid.
+
+
+## What's Next
+
+Right now, I&apos;m focused on:
+
+- Structuring the scraper to handle multiple sources with minimal duplication
+
+- Building out admin views to review past scrape jobs and debug failures
+
+- Creating a saved search and alert system that lets users get notified about new bids that match their interests
+
+Down the line, I may decide to open source a slimmed-down version of the project. For now, I&apos;ll keep sharing progress here — including technical hurdles, UX decisions, and maybe a few wrong turns too.
